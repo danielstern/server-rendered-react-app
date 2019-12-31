@@ -6,13 +6,13 @@ module.exports = {
         main: "./client/client.jsx",
     },
     output: {
-        filename: './public/[name].js'
+        filename: '[name].js'
     },
     resolve: {
         extensions: ['.js', '.jsx'],
     },
-    /** can module be omitted for a simple project?  */
-    /*module: {
+    /** can module be omitted for a simple project? No, it cannot. */
+    module: {
         rules: [
             {
                 test: /\.jsx?$/,
@@ -28,5 +28,5 @@ module.exports = {
                 }
             }
         ]
-    }*/
+    }
 }
