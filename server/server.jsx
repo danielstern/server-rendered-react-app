@@ -4,20 +4,21 @@ import compression from 'compression';
 import { renderToString } from 'react-dom/server';
 
 import { App } from '../client/client';
+import { getData } from './database';
 
 const app = new express();
 
 app.use(compression());
-app.get("/", (req,res)=>{
-    //res.send("Hello world!");
-    const rendered = renderToString(<App username="Bert"/>);
-    console.log("Rednered?", rendered);
-    // const rendered = `<div>I am rendered.</div>`
+app.get("/", async ( _req, res )=>{
+
+    const { questions, answers } = await getData();
+
+    const rendered = renderToString(<App username="Bert" questions={questions} answers={answers}/>);
+    // todo... load proper html page? more overhead but rehydration is easier..
     res.send(
-        `<div>
-            <h1>Hello world</h1>
+        `<html>
             ${rendered}
-        </div>`
+        </html>`
     )
     
 })
