@@ -1,57 +1,60 @@
-/** A blackbox wrapper containing a dummy data set and database. Can be modified to use production data without affecting the rest of the application. */
+/** A blackbox wrapper containing a dummy data set and database. 
+ * Can be modified to use production data without affecting the rest of the application. */
+
+import { copyAnswersWithModifiedUpvotes } from '../shared/utility';
 
 const data = {
 
     questions:[{
 
-        questionId:1,
+        questionId:"Q1",
         content:"Which back end solution should we use for our application?"
 
     },{
 
-        questionId:2,
+        questionId:"Q2",
         content:"What percentage of developer time should be devoted to end-to-end testing?"
 
     }],
     answers:[{
 
-        answerId:10,
+        answerId:"A1",
         questionId:1,
         upvotes:2,
         content: "Apache"
 
     },{
 
-        answerId:11,
-        questionId:1,
+        answerId:"A2",
+        questionId:"Q1",
         upvotes:0,
         content:"Java"
 
     },{
 
-        answerId:12,
-        questionId:1,
+        answerId:"A3",
+        questionId:"Q1",
         upvotes:4,
         content:"Node.js"
 
     },{
 
-        answerId:13,
-        questionId:2,
+        answerId:"A4",
+        questionId:"Q2",
         upvotes:2,
         content:"25%"
 
     },{
 
-        answerId:14,
-        questionId:2,
+        answerId:"A5",
+        questionId:"Q2",
         upvotes:1,
         content:"50%"
 
     },{
 
-        answerId:15,
-        questionId:2,
+        answerId:"A6",
+        questionId:"Q2",
         upvotes:1,
         content:"75%"
 
@@ -62,5 +65,13 @@ const data = {
 export async function getData() {
     
     return data;
+
+}
+
+export function modifyAnswerUpvotes(answerId, increment) {
+
+    console.log("Modifying data", answerId, increment);
+
+    data.answers = copyAnswersWithModifiedUpvotes(data.answers, answerId, increment);
 
 }

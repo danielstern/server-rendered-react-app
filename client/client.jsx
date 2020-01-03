@@ -1,53 +1,60 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
-export const App = ({questions, answers})=>(
-    <div>
-        <h1>Dev Team Decision Tool</h1>
+import { App } from './App';
+import { copyAnswersWithModifiedUpvotes } from '../shared/utility';
 
-        {questions.map(({questionId, content})=>(
+console.info("Client:: Fetching data from server");
 
-            <div className="question" key={questionId}>
+let state = {
 
-                <div>
+};
 
-                    {content}
-                    
-                </div>
-                <div>
+fetch("http://localhost:7777/data")
+    .then(data => data.json())
+    .then(json => {
 
-                    {answers.filter(answer => answer.questionId === questionId).map(({
-                        
-                        content, 
-                        upvotes, 
-                        answerId
-                    
-                    })=>(
+        state = json;
+        render();
 
-                        <div key={answerId}>
+    });
 
-                            <div className="answerContent">
+function handleVote(answerId, increment){
 
-                                {content} - {upvotes}
+    // console.log("You voted", answerId, increment);
+    // console.log(state.answers, answerId);
 
-                            </div>
+    state.answers = copyAnswersWithModifiedUpvotes(state.answers, answerId, increment);
+    // state.answers = state.answers.map(answer => {
 
-                            <div className="buttonContainer">
+    //     if (answer.answerId === answerId) {
 
-                                <button>+</button>
-                                <button>-</button>
+    //         return {
 
-                            </div>
-                            
-                        </div>
-                    
-                    ))}
+    //             ... answer,
+    //             upvotes: answer.upvotes + increment
+    //         }
 
-                </div>
 
-            </div>
+    //     } else {
 
-        ))}
-        {/* <h1>Welcome to Server Rendered Content</h1> */}
-        {/* <h2>Welcome, {username || "N/A"}</h2> */}
-    </div>
-)
+    //         return answer;
+
+    //     }
+
+    // });
+
+    fetch(`vote/${answerId}?increment=${increment}`);
+    render();
+
+};
+
+function render(){
+
+    console.info("Client:: Rendering application with remote data", state);
+    ReactDOM.hydrate(<App {...state} handleVote={handleVote}/>, document.querySelector("#Container"));
+
+    
+
+}
+

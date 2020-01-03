@@ -3,7 +3,7 @@ const {resolve} = require('path');
 module.exports = {
     mode: "development",
     entry:{
-        main: "./client/client.jsx",
+        client: "./client/client.jsx",
     },
     output: {
         filename: '[name].js'
