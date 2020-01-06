@@ -1,4 +1,4 @@
-#Server Rendered React Application
+# Server Rendered React Application
 
 ## Overview
 This simple application serves a server-rendered React application to the client. The application is made up of only a single component, but has full interactivity.
